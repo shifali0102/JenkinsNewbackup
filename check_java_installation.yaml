@@ -1,0 +1,11 @@
+- hosts: web
+  tasks:
+
+    - name: re-read facts after adding custom fact
+      setup: filter=ansible_local
+    - name: print message
+      shell: echo "java already installed"
+      register: foo
+      when: ansible_local['fact1']['preferences']['java_home'] == '/usr/lib/jvm/java-8-openjdk-amd64'
+      ignore_errors: True
+    - debug: msg= " {{ foo.stdout }} "
