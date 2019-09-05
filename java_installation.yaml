@@ -1,0 +1,14 @@
+- hosts: web
+  tasks:
+  - name: Install Java 1.8
+    apt: name=openjdk-8-jdk
+    become: yes
+    become_method: sudo
+  - name: Set JAVA_HOME
+    shell: sudo echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc
+    become: yes
+    become_method: sudo
+  - name: Check Java
+    shell: sudo echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/ansible/facts.d/fact1.fact
+     become: yes
+    become_method: sudo
