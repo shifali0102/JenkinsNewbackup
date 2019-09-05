@@ -1,0 +1,7 @@
+- hosts: web
+  tasks:
+    - name: create directory for ansible custom facts
+      file: state=directory recurse=yes path=/etc/ansible/facts.d
+      become: yes
+      become_method: sudo
+~
