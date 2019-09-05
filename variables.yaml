@@ -1,0 +1,17 @@
+- hosts: web
+  tasks:
+    - name: create directory for ansible custom facts
+      file: state=directory recurse=yes path=/etc/ansible/facts.d
+      become: yes
+      become_method: sudo
+    - name: write to a facts file
+      shell: sudo echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/ansible/facts.d/fact1.fact
+      become: yes
+      become_method: sudo
+    - name: re-read facts after adding custom fact
+      setup: filter=ansible_local
+       - name: print message
+      shell: echo "java already installed"
+      register: foo
+      when: ansible_local['fact1']['preferences']['java_home'] == '/usr/lib/jvm/java-8-openjdk-amd64'
+    - debug: msg=" {{ foo.stdout }}"
